@@ -1,0 +1,17 @@
+# 公共依赖 common dependencies
+python-dotenv
+opencv-python
+fastapi
+openai
+
+# 舞蹈分析 Dance Analysis
+mediapipe==0.10.8
+uvicorn
+python-multipart
+moviepy
+
+# 足球分析 football analysis
+ultralytics
+numpy==1.26.4
+setuptools==69.5.1
+lap
