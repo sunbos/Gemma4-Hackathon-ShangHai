@@ -1,5 +1,10 @@
 # AshPage Android
 
+> **Highlights**
+> 
+> - Technical Report: [TECHNICAL_REPORT.md](./TECHNICAL_REPORT.md)
+> - Demo Video: [乱涂乱画演示视频.mp4](./乱涂乱画演示视频.mp4)
+
 AshPage is a native Android prototype for an offline handwritten persona
 companion. The user writes on a paper-like canvas, the app sends the canvas image
 to a local LiteRT-LM multimodal model, and the model responds as a persona by
@@ -18,14 +23,13 @@ full demo loop runs on the Android device:
 8. Render the persona reply back onto the native canvas as handwritten paper
    annotations.
 
-Audio recording code still exists for experimentation, but the product direction
-is handwriting-first. The recommended demo path should use handwritten input,
-not voice input.
+Audio recording code still exists for experimentation, but the current
+implementation is handwriting-first. Voice input remains a secondary path.
 
 ## Product Framing
 
-AshPage is designed as a private, offline, ephemeral emotional outlet. It should
-not be presented as a medical, therapy, or diagnosis product. The intended
+AshPage is designed as a private, offline, ephemeral emotional outlet. Project
+scope does not include medical, therapy, or diagnosis capabilities. The intended
 experience is closer to writing to a live paper page: the user writes something
 they do not want to say out loud, and a persona responds on the same paper.
 
@@ -303,8 +307,8 @@ Deployment note:
 - This project is an Android on-device app and does not use Docker deployment.
 - Runtime depends on a local `.litertlm` model file and Android hardware, not a
   backend service.
-- For evaluation, the Gradle build steps above plus `adb push model.litertlm`
-  are the effective deployment path.
+- The deployment path is the Gradle build above plus `adb push model.litertlm`
+  to place the local model file.
 
 Hardware and environment:
 
@@ -316,7 +320,7 @@ Hardware and environment:
 
 ## Manual Test
 
-Recommended handwritten demo:
+Handwritten demo path:
 
 1. Install and run the app on the Xiaomi phone.
 2. Confirm the status changes from `Loading model...` to
@@ -346,7 +350,8 @@ Optional audio test:
 3. Tap the mic icon again to stop recording.
 4. Confirm the app sends WAV bytes to the local model and renders a response.
 
-Audio is secondary and should not be used as the primary product demo.
+Audio is a secondary experimental capability and not the primary interaction
+path.
 
 ## Future Work
 
