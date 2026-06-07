@@ -2,6 +2,7 @@
 
 > **Highlights**
 > 
+> - 中文说明: [README_zh.md](./README_zh.md)
 > - Technical Report: [TECHNICAL_REPORT.md](./TECHNICAL_REPORT.md)
 > - Demo Video: [Bilibili](https://www.bilibili.com/video/BV1uLEt6rE6S)
 
