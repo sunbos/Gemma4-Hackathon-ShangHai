@@ -3,7 +3,7 @@
 > **Highlights**
 > 
 > - Technical Report: [TECHNICAL_REPORT.md](./TECHNICAL_REPORT.md)
-> - Demo Video: [乱涂乱画演示视频.mp4](./乱涂乱画演示视频.mp4)
+> - Demo Video: [Bilibili](https://www.bilibili.com/video/BV1uLEt6rE6S)
 
 AshPage is a native Android prototype for an offline handwritten persona
 companion. The user writes on a paper-like canvas, the app sends the canvas image

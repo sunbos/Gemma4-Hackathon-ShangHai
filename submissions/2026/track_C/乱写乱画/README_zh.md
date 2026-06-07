@@ -3,7 +3,7 @@
 > **重点链接**
 > 
 > - 技术报告：[TECHNICAL_REPORT.md](./TECHNICAL_REPORT.md)
-> - 演示视频：[乱涂乱画演示视频.mp4](./乱涂乱画演示视频.mp4)
+> - 演示视频：[Bilibili](https://www.bilibili.com/video/BV1uLEt6rE6S)
 
 AshPage 灰页是一个原生 Android 端侧 Demo，用来验证“离线手写人格陪伴对象”的核心体验。用户在纸面画布上手写内容，App 将画布导出为 PNG bytes，交给本地 LiteRT-LM 多模态模型推理；模型以指定人格生成结构化纸面批注，Android 再把回复渲染回同一张纸上。
 
