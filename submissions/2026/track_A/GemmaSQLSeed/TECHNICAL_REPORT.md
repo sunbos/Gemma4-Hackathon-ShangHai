@@ -82,12 +82,26 @@ AIConfig (统一配置)
 ### 核心模块
 
 1. **DataOrchestrator**：中央协调器，管理数据生成完整生命周期。采用上下文管理器模式。
-2. **ColumnMapper**：9级列映射策略链（Autoincrement PK -> 用户配置 -> 精确名称匹配 -> 默认值检测 -> 模式匹配 -> 可空字段 -> 类型回退 -> AI 辅助映射）
-3. **SchemaInferrer**：自动读取 SQLite schema，解析 CREATE TABLE SQL
-4. **RelationResolver + SharedPool**：跨表外键完整性保障
-5. **ColumnDAG**：基于拓扑排序的列依赖解析
-6. **ExpressionEngine**：基于 simpleeval 的安全表达式引擎
-7. **ConstraintSolver**：UNIQUE 约束求解器
+
+2. **ColumnMapper**：9级列映射策略链：
+   - Level 1: Autoincrement PK 检测
+   - Level 2: 用户配置覆盖
+   - Level 3: 精确名称匹配（74条规则）
+   - Level 4: 默认值检测
+   - Level 5: 模式匹配（26条正则规则）
+   - Level 6: 可空字段处理
+   - Level 7: 类型回退
+   - Level 8-9: AI 辅助映射（Gemma 4 驱动）
+
+3. **SchemaInferrer**：自动读取 SQLite schema，解析 CREATE TABLE SQL，检测 autoincrement。
+
+4. **RelationResolver + SharedPool**：跨表外键完整性保障。通过名称匹配自动发现隐式关联。
+
+5. **ColumnDAG**：基于拓扑排序的列依赖解析，处理 derive_from 表达式依赖。
+
+6. **ExpressionEngine**：基于 simpleeval 的安全表达式引擎，5秒超时保护，21个白名单函数。
+
+7. **ConstraintSolver**：UNIQUE 约束求解器，支持回溯重试和概率模式（>100K行自动切换SHA256哈希）。
 
 ### AI 集成架构
 
@@ -120,9 +134,9 @@ SchemaInferrer     ColumnMapper     ColumnDAG   DataStream         ConstraintSol
 ## 5. 性能设计
 
 - **流式生成**：DataStream 实现 Iterator 模式，100万行数据与1000行内存占用相同
-- **批量写入**：默认1000行/批次，PRAGMA 优化
-- **约束求解**：小数据量回溯重试，>100K行自动切换概率模式
-- **Provider 降级**：mimesis -> faker -> base 自动降级
+- **批量写入**：默认1000行/批次，PRAGMA 优化（journal_mode=WAL, synchronous=OFF）
+- **约束求解**：小数据量回溯重试，>100K行自动切换概率模式（SHA256哈希）
+- **Provider 降级**：mimesis -> faker -> base 自动降级，确保核心功能始终可用
 - **本地推理优化**：LM Studio/Ollama 后端自动减少 few-shot 示例数量
 
 ## 6. 创新点总结

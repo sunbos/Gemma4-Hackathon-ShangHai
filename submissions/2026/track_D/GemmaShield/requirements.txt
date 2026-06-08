@@ -1,0 +1,39 @@
+# ================= CORE DL =================
+torch>=2.1.0
+torchaudio>=2.1.0
+
+numpy>=1.23
+pandas>=1.5
+
+scikit-learn>=1.2
+tqdm>=4.66
+
+
+# ================= AUDIO =================
+soundfile>=0.12
+librosa>=0.10.0
+
+# ffmpeg wrapper (not system ffmpeg)
+ffmpeg-python>=0.2.0
+
+# ================= NLP / GEMMA =================
+transformers>=4.45.0
+accelerate>=0.30.0
+sentencepiece>=0.2.0
+safetensors>=0.4.0
+
+# ================= WHISPER =================
+faster-whisper>=1.0.3
+ctranslate2>=4.0.0
+
+# ================= UI =================
+gradio>=4.44.0
+
+# ================= OPTIONAL (稳定性增强) =================
+huggingface_hub>=0.23.0
+tokenizers>=0.15.0
+protobuf>=4.25.0
+matplotlib
+
+# ================= API (如果你还留备用) =================
+google-generativeai

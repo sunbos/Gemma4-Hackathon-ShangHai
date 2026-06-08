@@ -1,0 +1,4 @@
+# Android/Kotlin project.
+# No Python runtime dependencies are required.
+# Build with the Gradle wrapper in the project repository:
+# ./gradlew :app:assembleDebug

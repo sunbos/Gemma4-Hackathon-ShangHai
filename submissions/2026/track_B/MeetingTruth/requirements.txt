@@ -1,0 +1,10 @@
+# MeetingTruth is a SwiftPM macOS app. Python ASR runtime dependencies are
+# prepared by the setup scripts under source/MeetingTruthMacApp/script/.
+#
+# Optional manual runtime equivalents:
+transformers
+accelerate
+torch
+soundfile
+huggingface_hub
+qwen-asr
