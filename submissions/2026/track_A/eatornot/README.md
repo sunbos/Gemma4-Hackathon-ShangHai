@@ -243,28 +243,55 @@ eatornot/
 
 ---
 
-## 🔍 运行日志展示
+## 🔍 运行日志（真实 Pipeline）
 
-### Agent Memory（记忆学习）
+> 完整日志见 [docs/agent_pipeline.log](docs/agent_pipeline.log) — 赛道 A 要求的 Agent Memory + Tool Calling 运行证明
 
-```
-[Memory] 记录用餐反馈: user=dev_coder, food=巨无霸, rating=4
-[Memory] 检测到模式: 用户偏好高蛋白餐品 (置信度 0.82)
-[Memory] 召回习惯: 偏好=[辣味, 高蛋白], 回避=[生菜], 预算模式=[工作日节省]
-[Orchestrator] 基于记忆增加减脂Agent和预算Agent权重
-```
-
-### Tool Calling（工具调用链）
+### ① Memory 加载用户档案
 
 ```
-[NutritionAgent] Function Call → get_nutrition(product_code="big_mac")
-  Response → 热量: 563kcal, 蛋白质: 33g, 脂肪: 33g, 碳水: 39g
+INFO [Memory] 加载用户档案: user_id=demo-user, name=小明, goal=lose_weight,
+      height=172.0cm, weight=72.0kg, age=24, daily_budget=¥100.0, allergies=[]
+```
 
-[BudgetAgent] Function Call → calculate_price(items=[...], store_code="12345")
-  Response → 总价: ¥42.00, 可用优惠券: 满减券-¥5
+### ② Function Calling → Orchestrator 智能调度
 
-[OrderDraft] Function Call → create_order(items=[...], store_code="12345")
-  Response → 订单创建成功, order_id=ORD20260607001
+```
+INFO [ToolCalling] Orchestrator 准备调用 LLM Function Calling 选择 Agent
+INFO [ToolCalling] 可选工具: ['profile', 'weight_loss', 'nutrition', 'budget',
+      'craving', 'time_context', 'safety', 'future_simulation']
+INFO [ToolCalling] LLM Function Calling 返回: {selected: ['profile', 'weight_loss',
+      'nutrition', 'budget', 'craving', 'time_context'],
+      reason: '用户明确提到减脂目标（weight_loss）、预算限制（budget）以及
+      疲劳状态（craving, time_context）。在长期模式下，需要结合用户档案（profile）
+      和营养均衡分析（nutrition）来评估麦当劳选项。'}
+```
+
+### ③ 6 Agent 并行分析
+
+```
+INFO [Agent] 减脂Agent: score=0.95 — "建议维持中度热量缺口。本餐603千卡预算在TDEE 2310
+      的基础上非常合理（约占每日总预算的25-30%）" | warning: 避免含糖饮料的套餐
+INFO [Agent] 预算Agent: score=0.90 — "预算非常充足。剩余43元，足以支付接下来的两餐"
+INFO [Agent] 营养Agent: score=0.40 — "美式咖啡热量极低，咖啡因有助于提高基础代谢"
+INFO [Agent] 食欲Agent: score=0.20 — "本周放纵额度已严重超标（4/2），建议严格执行健康饮食计划"
+```
+
+### ④ 4 阶段圆桌辩论
+
+```
+INFO [Debate] Stage 1/4 - 初始意见: 6 位 Agent 陈述立场
+INFO [Debate] Stage 2/4 - 发现冲突: 7 条冲突
+INFO [Debate] Stage 3/4 - 形成妥协: 综合各方意见
+INFO [Debate] Stage 4/4 - 最终投票: 6 票, 结果={approve, warn}
+```
+
+### ⑤ 3 个推荐方案
+
+```
+INFO [Plan] 💪 自律减脂餐: 板烧鸡腿堡 + 玉米杯 + 美式咖啡 | ¥34.0 | 465kcal | 蛋白27.8g
+INFO [Plan] 💰 省钱包饱餐: 猪柳蛋麦满分 + 麦香鸡块 + 零度可乐 | ¥36.5 | 700kcal | 蛋白36.0g
+INFO [Plan] 🍔 放纵一下餐: 巨无霸 + 薯条(小) + 零度可乐 | ¥40.5 | 760kcal | 蛋白29.0g
 ```
 
 ---
@@ -274,6 +301,7 @@ eatornot/
 | 文档 | 说明 |
 |------|------|
 | [技术报告](TECHNICAL_REPORT.md) | 模型选型 (Gemma 4 31B) + 架构设计 + 特性利用深度 |
+| [完整运行日志](docs/agent_pipeline.log) | 真实 Pipeline 日志 — Memory + Function Calling + 辩论全过程 |
 | [架构文档](docs/architecture.md) | 详细系统架构设计 |
 | [演示视频脚本](docs/demo_video_script.md) | 5 分钟 demo 流程 |
 | [开发指南](CLAUDE.md) | 项目结构 + 协作规范 |
