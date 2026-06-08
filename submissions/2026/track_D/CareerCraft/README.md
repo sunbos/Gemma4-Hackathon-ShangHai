@@ -205,19 +205,6 @@ npm run build
 - AI 评审用于训练和复盘，不应作为正式招聘、薪酬、绩效或资质认证的唯一依据。
 - 用户提交内容如包含隐私或商业机密，应在部署前增加数据脱敏、访问控制和日志留存策略。
 
-## 📦 提交说明
-
-项目提交路径：
-
-```text
-submissions/2026/track_D/Careercraft/
-```
-
-PR 标题建议：
-
-```text
-[赛道D] CareerCraft - AI 驱动的职业模拟沙盒
-```
 
 ## 📜 License
 
